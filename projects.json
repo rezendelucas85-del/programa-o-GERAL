@@ -1,26 +1,12 @@
 [
   {
-    "title": "Nome do Projeto",
-    "description": "Breve descrição do que o projeto faz e qual problema resolve.",
-    "tags": ["React", "Node.js"],
-    "link": "https://github.com/seuusuario/projeto1"
-  },
-  {
-    "title": "Nome do Projeto",
-    "description": "Breve descrição do que o projeto faz e qual problema resolve.",
-    "tags": ["Python", "Flask"],
-    "link": "https://github.com/seuusuario/projeto2"
-  },
-  {
-    "title": "Nome do Projeto",
-    "description": "Breve descrição do que o projeto faz e qual problema resolve.",
-    "tags": ["TypeScript", "Next.js"],
-    "link": "https://github.com/seuusuario/projeto3"
-  },
-  {
-    "title": "Nome do Projeto",
-    "description": "Breve descrição do que o projeto faz e qual problema resolve.",
-    "tags": ["Docker", "PostgreSQL"],
-    "link": "https://github.com/seuusuario/projeto4"
+    "title": "Gon�alves e Toledo Advocacia",
+    "description": "Site institucional com painel admin",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JS"
+    ],
+    "link": "https://goncalves-toledo.vercel.app/"
   }
 ]
