@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seu Nome — Dev</title>
+
+<!-- ===== SECURITY HEADERS ===== -->
+<!-- Bloqueia carregamento de scripts, iframes, objetos externos e qualquer recurso não autorizado -->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'none';
+  style-src 'unsafe-inline';
+  img-src 'self' data:;
+  font-src 'self';
+  form-action 'none';
+  base-uri 'self';
+  frame-ancestors 'none';
+  upgrade-insecure-requests;
+">
+<!-- Impede que o browser adivinhe o tipo MIME (evita MIME sniffing) -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<!-- Bloqueia que sua página seja embutida em iframes de outros sites (anti-clickjacking) -->
+<meta http-equiv="X-Frame-Options" content="DENY">
+<!-- Controla quais informações de origem são enviadas ao clicar em links externos -->
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Desativa APIs do browser que não são usadas nesta página -->
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), interest-cohort=()">
+<!-- Força HTTPS quando a página for servida via servidor -->
+<meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains; preload">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg-card: #12121a;
+    --text: #e8e8f0;
+    --text-secondary: #8a8aa0;
+    --neon-cyan: #00f5ff;
+    --neon-purple: #b14eff;
+    --neon-pink: #ff2e8c;
+    --border: #2a2a3a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Courier New', monospace;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Background grid + glow */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      linear-gradient(rgba(177, 78, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 245, 255, 0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -2;
+    animation: gridMove 20s linear infinite;
+  }
+
+  @keyframes gridMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 40px 40px; }
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -20%; left: 50%;
+    width: 800px; height: 800px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, rgba(177, 78, 255, 0.15), transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    padding: 120px 0 80px;
+    text-align: center;
+  }
+
+  .glitch-wrap {
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-shadow:
+      0 0 5px var(--neon-cyan),
+      0 0 20px var(--neon-cyan),
+      0 0 40px rgba(0, 245, 255, 0.4);
+    position: relative;
+    display: inline-block;
+    animation: flicker 4s infinite;
+  }
+
+  @keyframes flicker {
+    0%, 95%, 100% { opacity: 1; }
+    96% { opacity: 0.85; }
+    97% { opacity: 1; }
+    98% { opacity: 0.9; }
+  }
+
+  .role {
+    font-size: 16px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--neon-purple);
+    margin-top: 16px;
+    text-shadow: 0 0 10px rgba(177, 78, 255, 0.6);
+  }
+
+  .role::before, .role::after {
+    content: '// ';
+    opacity: 0.5;
+  }
+  .role::after {
+    content: ' //';
+  }
+
+  .bio {
+    max-width: 520px;
+    margin: 28px auto 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .socials {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+
+  .socials a {
+    color: var(--neon-cyan);
+    text-decoration: none;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--neon-cyan);
+    padding: 10px 24px;
+    border-radius: 4px;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .socials a:nth-child(2) {
+    color: var(--neon-purple);
+    border-color: var(--neon-purple);
+  }
+
+  .socials a:nth-child(3) {
+    color: var(--neon-pink);
+    border-color: var(--neon-pink);
+  }
+
+  .socials a:hover {
+    background: currentColor;
+    color: var(--bg) !important;
+    box-shadow: 0 0 20px currentColor;
+  }
+
+  /* ===== SECTION TITLE ===== */
+  .section-title {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-title::before {
+    content: '>';
+    color: var(--neon-cyan);
+    font-size: 18px;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* ===== PROJECTS ===== */
+  section.projects {
+    padding-bottom: 80px;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px;
+    text-decoration: none;
+    color: var(--text);
+    display: block;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(0, 245, 255, 0.08), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .project-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--neon-cyan);
+    box-shadow: 0 10px 30px rgba(0, 245, 255, 0.1);
+  }
+
+  .project-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .project-card:hover::after {
+    opacity: 1;
+  }
+
+  .project-number {
+    font-size: 12px;
+    color: var(--neon-purple);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+
+  .project-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: color 0.25s ease;
+  }
+
+  .project-card:hover h3 {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+  }
+
+  .project-card p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    background: rgba(177, 78, 255, 0.1);
+    color: var(--neon-purple);
+    border: 1px solid rgba(177, 78, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .project-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    font-size: 12px;
+    color: var(--neon-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .project-link .arrow {
+    transition: transform 0.25s ease;
+  }
+
+  .project-card:hover .project-link .arrow {
+    transform: translateX(6px);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0 60px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  footer span {
+    color: var(--neon-pink);
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 32px; }
+    header { padding: 80px 0 60px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- HEADER -->
+    <header>
+      <div class="glitch-wrap">
+        <h1>Seu Nome</h1>
+      </div>
+      <p class="role">Full Stack Developer</p>
+      <p class="bio">
+        Construindo experiências digitais com código limpo, performance
+        e um toque de cyberpunk. Bem-vindo ao meu terminal.
+      </p>
+      <div class="socials">
+        <a href="https://github.com/seuusuario" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://linkedin.com/in/seuusuario" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="mailto:seuemail@exemplo.com">Email</a>
+      </div>
+    </header>
+
+    <!-- PROJETOS -->
+    <section class="projects">
+      <p class="section-title">Projetos</p>
+      <div class="project-grid">
+
+        <a href="https://github.com/seuusuario/projeto1" target="_blank" rel="noopener noreferrer" class="project-card">
+          <div class="project-number">01</div>
+          <h3>Nome do Projeto</h3>
+          <p>Breve descrição do que o projeto faz e qual problema resolve.</p>
+          <div class="tags">
+            <span class="tag">React</span>
+            <span class="tag">Node.js</span>
+          </div>
+          <div class="project-link">Ver projeto <span class="arrow">→</span></div>
+        </a>
+
+        <a href="https://github.com/seuusuario/projeto2" target="_blank" rel="noopener noreferrer" class="project-card">
+          <div class="project-number">02</div>
+          <h3>Nome do Projeto</h3>
+          <p>Breve descrição do que o projeto faz e qual problema resolve.</p>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">Flask</span>
+          </div>
+          <div class="project-link">Ver projeto <span class="arrow">→</span></div>
+        </a>
+
+        <a href="https://github.com/seuusuario/projeto3" target="_blank" rel="noopener noreferrer" class="project-card">
+          <div class="project-number">03</div>
+          <h3>Nome do Projeto</h3>
+          <p>Breve descrição do que o projeto faz e qual problema resolve.</p>
+          <div class="tags">
+            <span class="tag">TypeScript</span>
+            <span class="tag">Next.js</span>
+          </div>
+          <div class="project-link">Ver projeto <span class="arrow">→</span></div>
+        </a>
+
+        <a href="https://github.com/seuusuario/projeto4" target="_blank" rel="noopener noreferrer" class="project-card">
+          <div class="project-number">04</div>
+          <h3>Nome do Projeto</h3>
+          <p>Breve descrição do que o projeto faz e qual problema resolve.</p>
+          <div class="tags">
+            <span class="tag">Docker</span>
+            <span class="tag">PostgreSQL</span>
+          </div>
+          <div class="project-link">Ver projeto <span class="arrow">→</span></div>
+        </a>
+
+      </div>
+    </section>
+
+    <footer>
+      &lt;/&gt; com <span>♥</span> por Seu Nome — 2026
+    </footer>
+
+  </div>
+
+</body>
+</html>
