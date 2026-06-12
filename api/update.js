@@ -18,8 +18,8 @@ module.exports = async (req, res) => {
     return res.status(401).json({ error: 'Senha incorreta' });
   }
 
-  const repo  = process.env.GITHUB_REPO;   // ex: rezendelucas85-del/programa-o-GERAL
-  const token = process.env.GITHUB_TOKEN;
+  const repo  = (process.env.GITHUB_REPO  || '').trim();
+  const token = (process.env.GITHUB_TOKEN || '').trim();
 
   if (!repo || !token) {
     return res.status(500).json({ error: 'Configuração do servidor incompleta' });
