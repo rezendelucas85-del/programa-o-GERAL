@@ -1,12 +1,50 @@
 [
   {
-    "title": "Gon�alves e Toledo Advocacia",
-    "description": "Site institucional com painel admin",
+    "title": "Gonçalves & Toledo Advocacia",
+    "description": "Site institucional para escritório de advocacia com sistema de notícias dinâmico e painel administrativo protegido por senha. Inclui áreas de atuação, serviços, modais interativos e integração com WhatsApp.\n",
     "tags": [
       "HTML",
       "CSS",
-      "JS"
+      "JavaScript",
+      "Vercel",
+      "Node.js",
+      "API REST"
     ],
     "link": "https://goncalves-toledo.vercel.app/"
+  },
+  {
+    "title": "JUSFACIL",
+    "description": "Plataforma web para advogados gerenciarem processos, clientes e documentos jurídicos com automação de fluxos e assistente IA integrado.",
+    "tags": [
+      "React",
+      "FastAPI",
+      "PostgreSQL",
+      "Python",
+      "Google OAuth"
+    ],
+    "link": "https://jusfacil-seven.vercel.app/dashboard"
+  },
+  {
+    "title": "JurisTrack",
+    "description": "Plataforma de monitoramento de processos judiciais que rastreia publicações de tribunais como TJSC, notificando advogados automaticamente sobre movimentações relevantes nos seus casos.\n",
+    "tags": [
+      "TypeScript",
+      "Next.js",
+      "Node.js",
+      "Supabase",
+      "Web Scraping"
+    ],
+    "link": "https://juristrack-backend-cxp2.vercel.app/"
+  },
+  {
+    "title": "OAB Pratique",
+    "description": "Plataforma de estudos para preparação ao exame da OAB com questões comentadas, simulados e acompanhamento de desempenho.",
+    "tags": [
+      "React",
+      "Python",
+      "FastAPI",
+      "PostgreSQL"
+    ],
+    "link": "https://oab-pratique.vercel.app/"
   }
 ]
