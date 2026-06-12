@@ -11,9 +11,15 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Dados incompletos' });
   }
 
+  // DEBUG TEMPORÁRIO — remover após diagnóstico
+  if (password === '__debug__') {
+    const p = process.env.ADMIN_PASSWORD;
+    return res.status(200).json({ len: p ? p.length : 'undefined', set: !!p });
+  }
+
   // Valida senha contra variável de ambiente (nunca exposta ao cliente)
   if (password !== process.env.ADMIN_PASSWORD) {
-    await new Promise(r => setTimeout(r, 1500)); // penalidade anti-brute-force
+    await new Promise(r => setTimeout(r, 1500));
     return res.status(401).json({ error: 'Senha incorreta' });
   }
 
