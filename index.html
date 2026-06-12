@@ -10,6 +10,8 @@
 <meta http-equiv="Content-Security-Policy" content="
   default-src 'none';
   style-src 'unsafe-inline';
+  script-src 'self';
+  connect-src 'self';
   img-src 'self' data:;
   font-src 'self';
   form-action 'none';
@@ -382,53 +384,7 @@
     <!-- PROJETOS -->
     <section class="projects">
       <p class="section-title">Projetos</p>
-      <div class="project-grid">
-
-        <a href="https://github.com/seuusuario/projeto1" target="_blank" rel="noopener noreferrer" class="project-card">
-          <div class="project-number">01</div>
-          <h3>Nome do Projeto</h3>
-          <p>Breve descrição do que o projeto faz e qual problema resolve.</p>
-          <div class="tags">
-            <span class="tag">React</span>
-            <span class="tag">Node.js</span>
-          </div>
-          <div class="project-link">Ver projeto <span class="arrow">→</span></div>
-        </a>
-
-        <a href="https://github.com/seuusuario/projeto2" target="_blank" rel="noopener noreferrer" class="project-card">
-          <div class="project-number">02</div>
-          <h3>Nome do Projeto</h3>
-          <p>Breve descrição do que o projeto faz e qual problema resolve.</p>
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">Flask</span>
-          </div>
-          <div class="project-link">Ver projeto <span class="arrow">→</span></div>
-        </a>
-
-        <a href="https://github.com/seuusuario/projeto3" target="_blank" rel="noopener noreferrer" class="project-card">
-          <div class="project-number">03</div>
-          <h3>Nome do Projeto</h3>
-          <p>Breve descrição do que o projeto faz e qual problema resolve.</p>
-          <div class="tags">
-            <span class="tag">TypeScript</span>
-            <span class="tag">Next.js</span>
-          </div>
-          <div class="project-link">Ver projeto <span class="arrow">→</span></div>
-        </a>
-
-        <a href="https://github.com/seuusuario/projeto4" target="_blank" rel="noopener noreferrer" class="project-card">
-          <div class="project-number">04</div>
-          <h3>Nome do Projeto</h3>
-          <p>Breve descrição do que o projeto faz e qual problema resolve.</p>
-          <div class="tags">
-            <span class="tag">Docker</span>
-            <span class="tag">PostgreSQL</span>
-          </div>
-          <div class="project-link">Ver projeto <span class="arrow">→</span></div>
-        </a>
-
-      </div>
+      <div class="project-grid" id="project-grid"></div>
     </section>
 
     <footer>
@@ -437,5 +393,6 @@
 
   </div>
 
+  <script src="/main.js"></script>
 </body>
 </html>

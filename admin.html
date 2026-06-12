@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Portfolio</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; form-action 'self'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-input: #1a1a26;
+    --text: #e8e8f0;
+    --text-secondary: #8a8aa0;
+    --neon-cyan: #00f5ff;
+    --neon-purple: #b14eff;
+    --neon-pink: #ff2e8c;
+    --neon-green: #00ff88;
+    --border: #2a2a3a;
+    --danger: #ff4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Courier New', monospace;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(177,78,255,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ===== LOGIN ===== */
+  #login-screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    z-index: 10;
+    background: var(--bg);
+  }
+
+  #login-screen h1 {
+    font-size: 36px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 20px rgba(0,245,255,.6);
+  }
+
+  #login-screen p.subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    letter-spacing: .15em;
+  }
+
+  .input-wrap {
+    position: relative;
+    width: 320px;
+  }
+
+  .input-wrap input {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+    padding: 14px 16px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color .2s;
+  }
+
+  .input-wrap input:focus {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 12px rgba(0,245,255,.2);
+  }
+
+  .btn {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    padding: 12px 32px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: all .2s;
+  }
+
+  .btn-primary {
+    background: transparent;
+    color: var(--neon-cyan);
+    border: 1px solid var(--neon-cyan);
+  }
+  .btn-primary:hover {
+    background: var(--neon-cyan);
+    color: var(--bg);
+    box-shadow: 0 0 20px rgba(0,245,255,.4);
+  }
+  .btn-primary:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+  .btn-danger {
+    background: transparent;
+    color: var(--danger);
+    border: 1px solid var(--danger);
+    padding: 6px 14px;
+    font-size: 11px;
+  }
+  .btn-danger:hover {
+    background: var(--danger);
+    color: #fff;
+  }
+
+  .btn-add {
+    background: transparent;
+    color: var(--neon-purple);
+    border: 1px solid var(--neon-purple);
+    width: 100%;
+    padding: 14px;
+    font-size: 13px;
+  }
+  .btn-add:hover {
+    background: var(--neon-purple);
+    color: var(--bg);
+    box-shadow: 0 0 20px rgba(177,78,255,.4);
+  }
+
+  .btn-save {
+    background: transparent;
+    color: var(--neon-green);
+    border: 1px solid var(--neon-green);
+    padding: 14px 48px;
+    font-size: 14px;
+  }
+  .btn-save:hover:not(:disabled) {
+    background: var(--neon-green);
+    color: var(--bg);
+    box-shadow: 0 0 20px rgba(0,255,136,.4);
+  }
+  .btn-save:disabled { opacity: .5; cursor: not-allowed; }
+
+  #login-error {
+    font-size: 12px;
+    color: var(--danger);
+    letter-spacing: .1em;
+    min-height: 18px;
+  }
+
+  /* ===== ADMIN PANEL ===== */
+  #admin-panel {
+    display: none;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .admin-header h1 {
+    font-size: 24px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 15px rgba(0,245,255,.5);
+  }
+
+  .admin-header a {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+    transition: color .2s;
+  }
+  .admin-header a:hover { color: var(--text); }
+
+  /* ===== PROJECT CARD EDITOR ===== */
+  .project-editor {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px;
+    margin-bottom: 16px;
+    position: relative;
+    transition: border-color .2s;
+  }
+
+  .project-editor:hover {
+    border-color: rgba(177,78,255,.4);
+  }
+
+  .editor-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .editor-num {
+    font-size: 12px;
+    color: var(--neon-purple);
+    letter-spacing: .2em;
+    opacity: .7;
+  }
+
+  .editor-grip {
+    color: var(--text-secondary);
+    font-size: 18px;
+    cursor: grab;
+    user-select: none;
+  }
+
+  .editor-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  @media (max-width: 600px) { .editor-fields { grid-template-columns: 1fr; } }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field.full { grid-column: 1 / -1; }
+
+  .field label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    color: var(--text-secondary);
+  }
+
+  .field input,
+  .field textarea {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    outline: none;
+    resize: none;
+    transition: border-color .2s;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 8px rgba(177,78,255,.2);
+  }
+
+  .field textarea { min-height: 72px; }
+
+  /* ===== BOTTOM BAR ===== */
+  .bottom-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(10,10,15,.95);
+    border-top: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    z-index: 5;
+    backdrop-filter: blur(8px);
+  }
+
+  #status-msg {
+    font-size: 12px;
+    letter-spacing: .1em;
+    min-width: 200px;
+    text-align: center;
+  }
+
+  .status-ok    { color: var(--neon-green); }
+  .status-error { color: var(--danger); }
+  .status-info  { color: var(--text-secondary); }
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="login-screen">
+  <h1>// ADMIN //</h1>
+  <p class="subtitle">Acesso restrito ao painel de controle</p>
+  <div class="input-wrap">
+    <input type="password" id="pwd-input" placeholder="Senha de acesso" autofocus>
+  </div>
+  <button class="btn btn-primary" id="login-btn" onclick="login()">ENTRAR</button>
+  <p id="login-error"></p>
+</div>
+
+<!-- ===== PAINEL ADMIN ===== -->
+<div id="admin-panel">
+  <div class="admin-header">
+    <h1>&#x25B2; Painel Admin</h1>
+    <a href="/" >← Ver site</a>
+  </div>
+
+  <div id="projects-container"></div>
+
+  <button class="btn btn-add" onclick="addProject()" style="margin-bottom:100px">
+    + Adicionar Projeto
+  </button>
+</div>
+
+<!-- ===== BARRA INFERIOR ===== -->
+<div class="bottom-bar" id="bottom-bar" style="display:none">
+  <span id="status-msg" class="status-info">Edite os projetos acima</span>
+  <button class="btn btn-save" id="save-btn" onclick="saveProjects()">SALVAR ALTERAÇÕES</button>
+</div>
+
+<script>
+  let projects = [];
+  let sessionOk = false;
+
+  // ── LOGIN ──────────────────────────────────────────────
+  document.getElementById('pwd-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') login();
+  });
+
+  async function login() {
+    const pwd = document.getElementById('pwd-input').value.trim();
+    const errEl = document.getElementById('login-error');
+    const btn = document.getElementById('login-btn');
+
+    if (!pwd) { errEl.textContent = 'Digite a senha'; return; }
+
+    btn.disabled = true;
+    btn.textContent = 'VERIFICANDO...';
+    errEl.textContent = '';
+
+    // Testa a senha fazendo uma requisição real ao servidor
+    try {
+      const res = await fetch('/api/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pwd, projects: null, checkOnly: true })
+      });
+
+      if (res.status === 400) {
+        // 400 = dados incompletos mas senha válida (projects=null)
+        sessionStorage.setItem('admin_pwd', pwd);
+        await enterPanel();
+        return;
+      }
+
+      if (res.status === 401) {
+        errEl.textContent = 'Senha incorreta';
+      } else {
+        // outro erro de servidor: tenta entrar assim mesmo se não for 401
+        errEl.textContent = 'Erro ao verificar. Tente novamente.';
+      }
+    } catch {
+      errEl.textContent = 'Sem conexão com o servidor';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'ENTRAR';
+  }
+
+  async function enterPanel() {
+    // Carrega projetos atuais
+    try {
+      const res = await fetch('/projects.json');
+      projects = await res.json();
+    } catch {
+      projects = [];
+    }
+
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-panel').style.display  = 'block';
+    document.getElementById('bottom-bar').style.display   = 'flex';
+    sessionOk = true;
+    renderProjects();
+  }
+
+  // ── RENDER ─────────────────────────────────────────────
+  function renderProjects() {
+    const container = document.getElementById('projects-container');
+    container.innerHTML = projects.map((p, i) => `
+      <div class="project-editor" id="proj-${i}">
+        <div class="editor-top">
+          <span class="editor-num">${String(i+1).padStart(2,'0')}</span>
+          <button class="btn btn-danger" onclick="removeProject(${i})">✕ Remover</button>
+        </div>
+        <div class="editor-fields">
+          <div class="field">
+            <label>Título</label>
+            <input type="text" value="${esc(p.title)}" oninput="update(${i},'title',this.value)">
+          </div>
+          <div class="field">
+            <label>Link (GitHub)</label>
+            <input type="url" value="${esc(p.link)}" oninput="update(${i},'link',this.value)">
+          </div>
+          <div class="field full">
+            <label>Descrição</label>
+            <textarea oninput="update(${i},'description',this.value)">${esc(p.description)}</textarea>
+          </div>
+          <div class="field full">
+            <label>Tags (separadas por vírgula)</label>
+            <input type="text" value="${esc(p.tags.join(', '))}" oninput="update(${i},'tags',this.value)">
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function esc(str) {
+    return String(str ?? '')
+      .replace(/&/g,'&amp;')
+      .replace(/"/g,'&quot;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;');
+  }
+
+  function update(i, field, value) {
+    if (field === 'tags') {
+      projects[i].tags = value.split(',').map(t => t.trim()).filter(Boolean);
+    } else {
+      projects[i][field] = value;
+    }
+  }
+
+  function addProject() {
+    projects.push({ title: 'Novo Projeto', description: 'Descrição do projeto.', tags: [], link: 'https://github.com/' });
+    renderProjects();
+    // scroll até o novo card
+    const last = document.getElementById(`proj-${projects.length - 1}`);
+    if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function removeProject(i) {
+    if (!confirm(`Remover projeto ${i+1}?`)) return;
+    projects.splice(i, 1);
+    renderProjects();
+  }
+
+  // ── SALVAR ─────────────────────────────────────────────
+  async function saveProjects() {
+    const btn    = document.getElementById('save-btn');
+    const status = document.getElementById('status-msg');
+    const pwd    = sessionStorage.getItem('admin_pwd');
+
+    btn.disabled = true;
+    btn.textContent = 'SALVANDO...';
+    status.textContent = 'Enviando para o GitHub...';
+    status.className = 'status-info';
+
+    try {
+      const res = await fetch('/api/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pwd, projects })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        status.textContent = '✓ ' + data.message;
+        status.className = 'status-ok';
+      } else {
+        status.textContent = '✗ ' + (data.error || 'Erro desconhecido');
+        status.className = 'status-error';
+      }
+    } catch {
+      status.textContent = '✗ Falha de conexão';
+      status.className = 'status-error';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'SALVAR ALTERAÇÕES';
+  }
+</script>
+</body>
+</html>
