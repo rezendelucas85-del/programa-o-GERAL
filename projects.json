@@ -46,5 +46,54 @@
       "PostgreSQL"
     ],
     "link": "https://oab-pratique.vercel.app/"
+  },
+  {
+    "title": "Audiências Connect",
+    "description": "Marketplace jurídico onde escritórios de advocacia publicam demandas de audiências e advogados/prepostos enviam propostas para atendê-las. Desenvolvido com React, TypeScript, Tailwind CSS e JSON Server.",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "JSON Server",
+      "Marketplace",
+      "Jurídico"
+    ],
+    "link": "https://rezendelucas85-del.github.io/correspondente-dinamico/"
+  },
+  {
+    "title": "Verde Saber",
+    "description": "Aplicativo educacional infantil com jogos e histórias interativas para crianças do ensino fundamental. (em desenvolvimento)",
+    "tags": [
+      "educação",
+      "infantil",
+      "javascript",
+      "html",
+      "css"
+    ],
+    "link": "https://rezendelucas85-del.github.io/verde-saber/"
+  },
+  {
+    "title": "Rede Humanista de Psicoterapia",
+    "description": "Plataforma de conexão entre pacientes e terapeutas humanistas, facilitando o acesso a psicoterapia de qualidade com uma abordagem centrada na pessoa.\n",
+    "tags": [
+      "psicoterapia",
+      "saúde mental",
+      "terapia humanista",
+      "React",
+      "TypeScript"
+    ],
+    "link": "https://rede-humanista-de-psicoterapia.vercel.app/"
+  },
+  {
+    "title": "Rezende Calçados",
+    "description": "E-commerce de calçados com Node.js, Express, MongoDB e Cloudinary. Permite cadastro de produtos, carrinho de compras e painel administrativo.",
+    "tags": [
+      "nodejs",
+      "express",
+      "mongodb",
+      "cloudinary",
+      "ecommerce"
+    ],
+    "link": "https://github.com/"
   }
 ]
